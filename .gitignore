@@ -120,6 +120,6 @@ hs_err_pid*
 *.iml
 .idea/
 LICENSE
-readme.md
+*.md
 todo
 
