@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class DbManager {
 
-    private static final String DB_URL = "";
-    private static final String DB_USER = "";
-    private static final String DB_PASS = "";
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/Workshop_2?useSSL=false&characterEncoding=utf8";
+    private static final String DB_USER = "root";
+    private static final String DB_PASS = "coderslab";
 
     private static DbManager instance;
     private Connection connection;
@@ -23,7 +23,7 @@ public class DbManager {
         return instance;
     }
 
-    private Connection getConnection() throws SQLException {
+    public Connection getConnection() throws SQLException {
         if (connection == null || connection.isClosed()) {
             connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
         }
