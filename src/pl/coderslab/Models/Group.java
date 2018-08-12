@@ -1,10 +1,7 @@
-package pl.coderslab;
+package pl.coderslab.Models;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class Group {
 
@@ -55,7 +52,31 @@ public class Group {
                 '}';
     }
 
-//    static public User[] loadAllGroups(Connection conn) throws SQLException {
+
+//    static public Group loadGroupById(Connection conn) throws SQLException {
+//
+//        String sql = ""
+//    }
+
+
+    //    static public User loadUserById(Connection conn, int id) throws SQLException {
+//
+//        String sql = "SELECT * FROM Users where id=?";
+//        PreparedStatement preparedStatement;
+//        preparedStatement = conn.prepareStatement(sql);
+//        preparedStatement.setInt(1, id);
+//        ResultSet resultSet = preparedStatement.executeQuery();
+//        if (resultSet.next()) {
+//            User loadedUser = new User();
+//            loadedUser.id = resultSet.getInt("id");
+//            loadedUser.username = resultSet.getString("username");
+//            loadedUser.password = resultSet.getString("password");
+//            loadedUser.email = resultSet.getString("email");
+//            return loadedUser;
+//        }
+//        return null;
+//    }
+//    static public Group[] loadAllGroups(Connection conn) throws SQLException {
 //        ArrayList<User> users = new ArrayList<User>();
 //        String sql = "SELECT * FROM Users";
 //        PreparedStatement preparedStatement;
@@ -102,23 +123,7 @@ public class Group {
 //
 //    }
 //
-//    static public User loadUserById(Connection conn, int id) throws SQLException {
-//
-//        String sql = "SELECT * FROM Users where id=?";
-//        PreparedStatement preparedStatement;
-//        preparedStatement = conn.prepareStatement(sql);
-//        preparedStatement.setInt(1, id);
-//        ResultSet resultSet = preparedStatement.executeQuery();
-//        if (resultSet.next()) {
-//            User loadedUser = new User();
-//            loadedUser.id = resultSet.getInt("id");
-//            loadedUser.username = resultSet.getString("username");
-//            loadedUser.password = resultSet.getString("password");
-//            loadedUser.email = resultSet.getString("email");
-//            return loadedUser;
-//        }
-//        return null;
-//    }
+
 //
 //
 //    public void delete(Connection conn) throws SQLException {
@@ -131,9 +136,6 @@ public class Group {
 //            this.id = 0;
 //        }
 //    }
-
-
-
 
 
 }

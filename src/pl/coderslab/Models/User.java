@@ -1,8 +1,6 @@
-package pl.coderslab;
-// na repo Adama szukaj szablonu dbManager do projektu v2
+package pl.coderslab.Models;
 
-//tu masz przoda: :)
-//https://github.com/awlodarczyk/Warsztaty_2
+// na repo Adama szukaj szablonu dbManager do projektu v2 - https://github.com/awlodarczyk/Warsztaty_2
 
 import org.mindrot.BCrypt;
 
@@ -14,26 +12,18 @@ import java.util.ArrayList;
 
 public class User {
 
-    public static String createTabUsers = "CREATE TABLE `Workshop_2`.`Users` (\n" +
-            "  `id` INT(11) NOT NULL AUTO_INCREMENT,\n" +
-            "  `email` VARCHAR(255) NOT NULL,\n" +
-            "  `username` VARCHAR(255) NOT NULL,\n" +
-            "  `password` VARCHAR(60) NOT NULL,\n" +
-            "  PRIMARY KEY (`id`),\n" +
-            "  UNIQUE INDEX `email_UNIQUE` (`email` ASC));\n";
-
     private int id;
     private String username;
     private String password;
     private String email;
 
+    public User() {
+    }
+
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.setPassword(password);
-    }
-
-    public User() {
     }
 
     public void setUsername(String username) {
@@ -63,7 +53,7 @@ public class User {
 
         if (this.id == 0) {
             String sql = "INSERT INTO Users(username, email, password) VALUES (?, ?, ?)";
-            String generatedColumns[] = {"id"};
+            String generatedColumns[] = {"ID"};
             PreparedStatement preparedStatement;
             preparedStatement = conn.prepareStatement(sql, generatedColumns);
             preparedStatement.setString(1, this.username);
@@ -84,7 +74,6 @@ public class User {
             preparedStatement.setInt(4, this.id);
             preparedStatement.executeUpdate();
         }
-
     }
 
     static public User loadUserById(Connection conn, int id) throws SQLException {
@@ -135,6 +124,14 @@ public class User {
             this.id = 0;
         }
     }
+
+    public static String createTabUsers = "CREATE TABLE `Workshop_2`.`Users` (\n" +
+            "  `id` INT(11) NOT NULL AUTO_INCREMENT,\n" +
+            "  `email` VARCHAR(255) NOT NULL,\n" +
+            "  `username` VARCHAR(255) NOT NULL,\n" +
+            "  `password` VARCHAR(60) NOT NULL,\n" +
+            "  PRIMARY KEY (`id`),\n" +
+            "  UNIQUE INDEX `email_UNIQUE` (`email` ASC));\n";
 
 }
 
