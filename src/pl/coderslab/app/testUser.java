@@ -6,7 +6,7 @@ import pl.coderslab.Models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MainUser {
+public class testUser {
 
     public static void main(String[] args) {
 
@@ -18,7 +18,6 @@ public class MainUser {
 
         DbManager db = DbManager.getInstance();
 
-        try {
             Connection conn = db.getConnection();
 
 
@@ -53,14 +52,10 @@ public class MainUser {
             System.out.println(userToModify);
 
             System.out.println("----------- modification of user and print him in console after modification --------");
-            try {
                 userToModify.setPassword("7777abc");
                 userToModify.setEmail("monikakalata@gmail.com");
                 userToModify.saveToDB(conn);
                 System.out.println(User.loadUserById(conn, 3));
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
 //            System.out.println("------------------------ delete user and print all in console -----------------------");
 //            User userToDelete = User.loadUserById(conn, 8);
 //            try {
@@ -76,9 +71,6 @@ public class MainUser {
 //            System.out.println(userToDelete);
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
     }

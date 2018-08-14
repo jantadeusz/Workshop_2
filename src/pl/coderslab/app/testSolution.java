@@ -7,14 +7,13 @@ import pl.coderslab.Models.User;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MainSolution {
+public class testSolution {
 
     public static void main(String[] args) {
 
         DbManager db = DbManager.getInstance();
 
 
-        try {
             Connection conn = db.getConnection();
 //==================== create new solution ================================
 //            Solution solution = new Solution();
@@ -44,9 +43,6 @@ public class MainSolution {
             }
 
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
 
     }

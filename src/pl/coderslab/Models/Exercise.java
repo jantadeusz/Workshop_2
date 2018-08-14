@@ -67,67 +67,83 @@ public class Exercise {
             "  PRIMARY KEY (`id`)\n" +
             ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_polish_ci;";
 
-    static public Exercise[] loadAll(Connection conn) throws SQLException {
+    static public Exercise[] loadAll(Connection conn){
         List<Exercise> exercises = new ArrayList<>();
         String sql = "SELECT * FROM exercise;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            Exercise exercise = new Exercise();
-            exercise.setId(rs.getInt("id"));
-            exercise.setTitle(rs.getString("title"));
-            exercise.setDescription(rs.getString("description"));
-            exercises.add(exercise);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setId(rs.getInt("id"));
+                exercise.setTitle(rs.getString("title"));
+                exercise.setDescription(rs.getString("description"));
+                exercises.add(exercise);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         Exercise[] result = new Exercise[exercises.size()];
         result = exercises.toArray(result);
         return result;
     }
 
-    static public Exercise loadById(Connection conn, int id) throws SQLException {
+    static public Exercise loadById(Connection conn, int id){
 
         String sql = "SELECT * FROM exercise where id =?;";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        if (rs.next()) {
-            Exercise exercise = new Exercise();
-            exercise.setId(rs.getInt("id"));
-            exercise.setTitle(rs.getString("title"));
-            exercise.setDescription(rs.getString("description"));
-            return exercise;
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                Exercise exercise = new Exercise();
+                exercise.setId(rs.getInt("id"));
+                exercise.setTitle(rs.getString("title"));
+                exercise.setDescription(rs.getString("description"));
+                return exercise;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public void delete(Connection conn) throws SQLException {
-        if (this.id != 0) {
-            String sql = "DELETE FROM exercise WHERE id=?;";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, this.id);
-            ps.executeUpdate();
-            this.id = 0;
+    public void delete(Connection conn){//} throws SQLException {
+        try {
+            if (this.id != 0) {
+                String sql = "DELETE FROM exercise WHERE id=?;";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setInt(1, this.id);
+                ps.executeUpdate();
+                this.id = 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void saveToDB(Connection conn) throws SQLException {
-        if (this.id == 0) {
-            String sql = "INSERT INTO exercise(title, description) VALUES (?,?);";
-            String generatedColumns[] = {"id"};
-            PreparedStatement ps = conn.prepareStatement(sql, generatedColumns);
-            ps.setString(1, this.title);
-            ps.setString(2, this.description);
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next())
-                this.id = rs.getInt(1);
-        } else {
-            String sql = "UPDATE exercise SET title = ?, description = ? WHERE id = ?;";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, this.title);
-            ps.setString(2, this.description);
-            ps.setInt(3, this.id);
-            ps.executeUpdate();
+    public void saveToDB(Connection conn){//} throws SQLException {
+        try {
+            if (this.id == 0) {
+                String sql = "INSERT INTO exercise(title, description) VALUES (?,?);";
+                String generatedColumns[] = {"id"};
+                PreparedStatement ps = conn.prepareStatement(sql, generatedColumns);
+                ps.setString(1, this.title);
+                ps.setString(2, this.description);
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next())
+                    this.id = rs.getInt(1);
+            } else {
+                String sql = "UPDATE exercise SET title = ?, description = ? WHERE id = ?;";
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ps.setString(1, this.title);
+                ps.setString(2, this.description);
+                ps.setInt(3, this.id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

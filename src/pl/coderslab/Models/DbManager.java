@@ -24,9 +24,13 @@ public class DbManager {
         return instance;
     }
 
-    public Connection getConnection() throws SQLException {
-        if (connection == null || connection.isClosed()) {
-            connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+    public Connection getConnection(){
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return connection;
     }

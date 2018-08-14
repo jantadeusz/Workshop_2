@@ -46,6 +46,14 @@ public class User {
         this.password = BCrypt.hashpw(password, this.salt);
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -60,96 +68,120 @@ public class User {
                 '}';
     }
 
-    public void saveToDB(Connection conn) throws SQLException {
+    public void saveToDB(Connection conn) {
 
-        if (this.id == 0) {
-            String sql = "INSERT INTO Users(username, email, password, user_group_id, salt) VALUES (?,?,?,?,?)";
-            String generatedColumns[] = {"ID"};
-            PreparedStatement ps;
-            ps = conn.prepareStatement(sql, generatedColumns);
-            ps.setString(1, this.username);
-            ps.setString(2, this.email);
-            ps.setString(3, this.password);
-            ps.setInt(4, this.personGroupId);
-            ps.setString(5, this.salt);
-            ps.executeUpdate();
-            ResultSet rs = ps.getGeneratedKeys();
-            if (rs.next())
-                this.id = rs.getInt(1);
-        } else {
-            String sql = "UPDATE Users SET username=?, email=?, password=?, user_group_id=?, salt =? where id = ?";
-            PreparedStatement ps;
-            ps = conn.prepareStatement(sql);
-            ps.setString(1, this.username);
-            ps.setString(2, this.email);
-            ps.setString(3, this.password);
-            ps.setInt(4, this.personGroupId);
-            ps.setString(5, this.salt);
-            ps.setInt(6, this.id);
-            ps.executeUpdate();
+        try {
+            if (this.id == 0) {
+                String sql = "INSERT INTO Users(username, email, password, user_group_id, salt) VALUES (?,?,?,?,?)";
+                String generatedColumns[] = {"ID"};
+                PreparedStatement ps;
+                ps = conn.prepareStatement(sql, generatedColumns);
+                ps.setString(1, this.username);
+                ps.setString(2, this.email);
+                ps.setString(3, this.password);
+                ps.setInt(4, this.personGroupId);
+                ps.setString(5, this.salt);
+                ps.executeUpdate();
+                ResultSet rs = ps.getGeneratedKeys();
+                if (rs.next())
+                    this.id = rs.getInt(1);
+            } else {
+                String sql = "UPDATE Users SET username=?, email=?, password=?, user_group_id=?, salt =? where id = ?";
+                PreparedStatement ps;
+                ps = conn.prepareStatement(sql);
+                ps.setString(1, this.username);
+                ps.setString(2, this.email);
+                ps.setString(3, this.password);
+                ps.setInt(4, this.personGroupId);
+                ps.setString(5, this.salt);
+                ps.setInt(6, this.id);
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    static public User loadUserById(Connection conn, int id) throws SQLException {
+    static public User loadUserById(Connection conn, int id) {
 
-        String sql = "SELECT * FROM Users where id=?";
-        PreparedStatement preparedStatement;
-        preparedStatement = conn.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        if (resultSet.next()) {
-            User loadedUser = getUserFromResultSet(resultSet);
-            return loadedUser;
+        try {
+            String sql = "SELECT * FROM Users where id=?";
+            PreparedStatement preparedStatement;
+            preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                User loadedUser = getUserFromResultSet(resultSet);
+                return loadedUser;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    static public User[] loadAllUsers(Connection conn) throws SQLException {
+    static public User[] loadAllUsers(Connection conn) {
         ArrayList<User> users = new ArrayList<User>();
         String sql = "SELECT * FROM Users";
         PreparedStatement preparedStatement;
-        preparedStatement = conn.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()) {
-            User loadedUser = getUserFromResultSet(resultSet);
-            users.add(loadedUser);
+        try {
+            preparedStatement = conn.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                User loadedUser = getUserFromResultSet(resultSet);
+                users.add(loadedUser);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         User[] uArray = new User[users.size()];
         uArray = users.toArray(uArray);
         return uArray;
     }
 
-    private static User getUserFromResultSet(ResultSet resultSet) throws SQLException {
+    private static User getUserFromResultSet(ResultSet resultSet) {
         User loadedUser = new User();
-        loadedUser.id = resultSet.getInt("id");
-        loadedUser.username = resultSet.getString("username");
-        loadedUser.password = resultSet.getString("password");
-        loadedUser.email = resultSet.getString("email");
-        loadedUser.personGroupId = resultSet.getInt("user_group_id");
-        loadedUser.salt = resultSet.getString("salt");
+        try {
+            loadedUser.id = resultSet.getInt("id");
+            loadedUser.username = resultSet.getString("username");
+            loadedUser.password = resultSet.getString("password");
+            loadedUser.email = resultSet.getString("email");
+            loadedUser.personGroupId = resultSet.getInt("user_group_id");
+            loadedUser.salt = resultSet.getString("salt");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return loadedUser;
     }
 
-    public void delete(Connection conn) throws SQLException {
-        if (this.id != 0) {
-            String sql = "DELETE FROM Users WHERE id=?";
-            PreparedStatement preparedStatement;
-            preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, this.id);
-            preparedStatement.executeUpdate();
-            this.id = 0;
+    public void delete(Connection conn) {
+        try {
+            if (this.id != 0) {
+                String sql = "DELETE FROM Users WHERE id=?";
+                PreparedStatement preparedStatement;
+                preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setInt(1, this.id);
+                preparedStatement.executeUpdate();
+                this.id = 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 
-    static public User[] loadAllByGroupId(Connection conn, int id) throws SQLException {
+    static public User[] loadAllByGroupId(Connection conn, int id) {
         ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT * FROM Users WHERE user_group_id=?";
-        PreparedStatement ps = conn.prepareStatement(sql);
-        ps.setInt(1, id);
-        ResultSet rs = ps.executeQuery();
-        while (rs.next()) {
-            User loadedUser = getUserFromResultSet(rs);
-            users.add(loadedUser);
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User loadedUser = getUserFromResultSet(rs);
+                users.add(loadedUser);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         User[] uArray = new User[users.size()];
         uArray = users.toArray(uArray);
@@ -164,5 +196,14 @@ public class User {
             "  PRIMARY KEY (`id`),\n" +
             "  UNIQUE INDEX `email_UNIQUE` (`email` ASC));\n";
 
+    public static int getIdFromUserName(User[] users, String input) {
+        int resultId = -1;
+        for (User u : users) {
+            if (input.equals(u.getUsername())) {
+                resultId = u.getId();
+            }
+        }
+        return resultId;
+    }
 }
 

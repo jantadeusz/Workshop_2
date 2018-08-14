@@ -2,6 +2,7 @@ package pl.coderslab.app;
 
 import pl.coderslab.Models.DbManager;
 import pl.coderslab.Models.User;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
@@ -10,26 +11,18 @@ public class controllerUsers {
     public static void main(String[] args) {
         DbManager db = DbManager.getInstance();
         Connection conn = null;
-        try {
             conn = db.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
         System.out.println("   #############   Programming School Users administration panel   #############   ");
         while (true) {
             System.out.println("Current students: ===================================================================");
-            try {
-                User[] currentUsers = User.loadAllUsers(conn);
-                for (User u : currentUsers) {
-                    System.out.println(u);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+            User[] currentUsers = User.loadAllUsers(conn);
+            for (User u : currentUsers) {
+                System.out.println(u);
             }
             System.out.println("End of current students: ============================================================");
 
             System.out.println("Available options (type word): " +
-                    "\n\t 'add' -add new student, 'edit' -edit student, 'del' -delete student, 'quit' -exit program");
+                    "\n\t 'add' -add new student, 'edit' -edit student, 'del' -delete student, 'quit' -exit panel");
             Scanner scanner = new Scanner(System.in);
             String initAnswer = scanner.nextLine();
 
@@ -47,17 +40,13 @@ public class controllerUsers {
                         scanner.nextLine();
                         break;
                     } else {
-                        System.out.println("Type number. Try again.");
+                        System.out.println("Wrong input. Try again.");
                         scanner.next();
                     }
                 }
                 System.out.print("Type user password: ");
                 newUser.setPassword(scanner.nextLine());
-                try {
-                    newUser.saveToDB(conn);
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+                newUser.saveToDB(conn);
             } else if (initAnswer.equals("edit")) {
                 System.out.println("Editing user with specific id: ==================================================");
                 while (true) {
@@ -65,24 +54,20 @@ public class controllerUsers {
                     if (scanner.hasNextInt()) {
                         int idToEdit = scanner.nextInt();
                         scanner.nextLine();
-                        try {
-                            User userToEdit = User.loadUserById(conn, idToEdit);
-                            System.out.print("Type new username: ");
-                            userToEdit.setUsername(scanner.nextLine());
-                            System.out.print("Type new email: ");
-                            userToEdit.setEmail(scanner.nextLine());
-                            System.out.print("Type new password: ");
-                            userToEdit.setPassword(scanner.nextLine());
-                            System.out.print("Type new group: ");
-                            userToEdit.setPersonGroupId(scanner.nextInt());
-                            scanner.nextLine();
-                            userToEdit.saveToDB(conn);
-                            break;
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        User userToEdit = User.loadUserById(conn, idToEdit);
+                        System.out.print("Type new username: ");
+                        userToEdit.setUsername(scanner.nextLine());
+                        System.out.print("Type new email: ");
+                        userToEdit.setEmail(scanner.nextLine());
+                        System.out.print("Type new password: ");
+                        userToEdit.setPassword(scanner.nextLine());
+                        System.out.print("Type new group: ");
+                        userToEdit.setPersonGroupId(scanner.nextInt());
+                        scanner.nextLine();
+                        userToEdit.saveToDB(conn);
+                        break;
                     } else {
-                        System.out.println("Type number. Try again.");
+                        System.out.println("Wrong input. Try again.");
                         scanner.next();
                     }
                 }
@@ -94,15 +79,11 @@ public class controllerUsers {
                     if (scanner.hasNextInt()) {
                         int idToDelete = scanner.nextInt();
                         scanner.nextLine();
-                        try {
-                            User userToDelete = User.loadUserById(conn, idToDelete);
-                            userToDelete.delete(conn);
-                            break;
-                        } catch (SQLException e) {
-                            e.printStackTrace();
-                        }
+                        User userToDelete = User.loadUserById(conn, idToDelete);
+                        userToDelete.delete(conn);
+                        break;
                     } else {
-                        System.out.println("Type number. Try again.");
+                        System.out.println("Wrong input. Try again.");
                         scanner.next();
                     }
                 }
