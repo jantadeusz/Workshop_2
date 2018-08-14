@@ -1,24 +1,19 @@
 package pl.coderslab.app;
 
-import pl.coderslab.DbManager;
+import pl.coderslab.Models.DbManager;
 import pl.coderslab.Models.User;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class MainUsers {
+public class MainUser {
 
     public static void main(String[] args) {
 
-
-
-
-
-
-        User userAdams = new User("Adams", "adam@wp.pl", "1234as");
-        User userMonic = new User("Monic", "monika@wp.pl", "1234er");
-        User userTeddy = new User("Teddy", "teddysf@wp.pl", "1234uy");
-        User userBundy = new User("Bundy", "albundy@wp.pl", "1234hy");
+        User userAdams = new User("Adams", "adam@wp.pl", "1234as",3);
+        User userMonic = new User("Monic", "monika@wp.pl", "1234er",4);
+        User userTeddy = new User("Teddy", "teddysf@wp.pl", "1234uy",3);
+        User userBundy = new User("Bundy", "albundy@wp.pl", "1234hy",4);
 
 
         DbManager db = DbManager.getInstance();
@@ -66,19 +61,19 @@ public class MainUsers {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            System.out.println("------------------------ delete user and print all in console -----------------------");
-            User userToDelete = User.loadUserById(conn, 8);
-            try {
-                userToDelete.delete(conn);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            User[] tableOfUsers1 = User.loadAllUsers(conn);
-            for (User e : tableOfUsers1) {
-                System.out.println(e);
-            }
-            System.out.println("--------------- check id of deleted user --------------------------------------------");
-            System.out.println(userToDelete);
+//            System.out.println("------------------------ delete user and print all in console -----------------------");
+//            User userToDelete = User.loadUserById(conn, 8);
+//            try {
+//                userToDelete.delete(conn);
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            User[] tableOfUsers1 = User.loadAllUsers(conn);
+//            for (User e : tableOfUsers1) {
+//                System.out.println(e);
+//            }
+//            System.out.println("--------------- check id of deleted user --------------------------------------------");
+//            System.out.println(userToDelete);
 
 
         } catch (SQLException e) {
