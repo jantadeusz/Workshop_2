@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class controllerExercises {
-    public static void main(String[] args) {
+    public static void main(Scanner scanner) {
         DbManager db = DbManager.getInstance();
         Connection conn = null;
         conn = db.getConnection();
@@ -24,7 +24,7 @@ public class controllerExercises {
 
             System.out.println("Available options (type word): " +
                     "\n\t'add' -add new exercise, 'edit' -edit exercise, 'del' -delete exercise, 'quit' -exit panel");
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             String initAnswer = scanner.nextLine();
 
             if (initAnswer.equals("add")) {
@@ -71,7 +71,7 @@ public class controllerExercises {
                 }
             } else if (initAnswer.equals("quit")) {
                 System.out.println("Exit program ====================================================================");
-                scanner.close();
+//                scanner.close();
                 break;
             } else {
                 System.out.println("Wrong input. Try again");

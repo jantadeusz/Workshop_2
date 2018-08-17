@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.util.Scanner;
 
 public class controllerGroup {
-    public static void main() {
+    public static void main(Scanner scanner) {
         DbManager db = DbManager.getInstance();
         Connection conn = null;
         conn = db.getConnection();
@@ -21,7 +21,7 @@ public class controllerGroup {
 
             System.out.println("Available options (type word): " +
                     "\n\t 'add' -add new group, 'edit' -edit group, 'del' -delete group, 'quit' -exit panel");
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             String initAnswer = scanner.nextLine();
 
             if (initAnswer.equals("add")) {
@@ -66,7 +66,7 @@ public class controllerGroup {
 
             } else if (initAnswer.equals("quit")) {
                 System.out.println("Exit program ====================================================================");
-                scanner.close();
+//                scanner.close();
                 break;
             } else {
                 System.out.println("Wrong input. Try again");

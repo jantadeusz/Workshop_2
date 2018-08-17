@@ -2,16 +2,13 @@ package pl.coderslab.app;
 
 import pl.coderslab.Models.DbManager;
 import pl.coderslab.Models.User;
-
 import java.sql.Connection;
-import java.sql.SQLException;
 import java.util.Scanner;
 
 public class controllerUsers {
-    public static void main(String[] args) {
+    public static void main(Scanner scanner) {
         DbManager db = DbManager.getInstance();
-        Connection conn = null;
-            conn = db.getConnection();
+        Connection conn = db.getConnection();
         System.out.println("   #############   Programming School Users administration panel   #############   ");
         while (true) {
             System.out.println("Current students: ===================================================================");
@@ -23,7 +20,7 @@ public class controllerUsers {
 
             System.out.println("Available options (type word): " +
                     "\n\t 'add' -add new student, 'edit' -edit student, 'del' -delete student, 'quit' -exit panel");
-            Scanner scanner = new Scanner(System.in);
+//            Scanner scanner = new Scanner(System.in);
             String initAnswer = scanner.nextLine();
 
             if (initAnswer.equals("add")) {
@@ -90,7 +87,7 @@ public class controllerUsers {
 
             } else if (initAnswer.equals("quit")) {
                 System.out.println("Exit program ====================================================================");
-                scanner.close();
+//                scanner.close();
                 break;
             } else {
                 System.out.println("Wrong input. Try again");
